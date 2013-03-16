@@ -40,38 +40,56 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	NSInteger _lastSelectedSegmentIndex;
 }
 
+- (void)commonInit {
+    _selectedSegmentIndex = -1;
+    _lastSelectedSegmentIndex = -1;
+    _items = [NSMutableArray new];
+    
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    self.frame = CGRectMake(10.0, 0.0, kURBDefaultSize.width, kURBDefaultSize.height);
+    self.backgroundColor = [UIColor clearColor];
+    self.imageColor = [UIColor grayColor];
+    self.selectedImageColor = [UIColor whiteColor];
+    self.segmentEdgeInsets = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+    
+    // base styles
+    self.baseColor = [UIColor colorWithRed:0.35 green:0.35 blue:0.35 alpha:1.0];
+    self.strokeColor = [UIColor darkGrayColor];
+    self.segmentBackgroundColor = nil;
+    self.strokeWidth = 2.0f;
+    self.cornerRadius = 4.0f;
+    
+    // layout
+    self.layoutOrientation = URBSegmentedControlOrientationHorizontal;
+    self.segmentViewLayout = URBSegmentViewLayoutDefault;
+    
+    // base image view
+    _backgroundView = [[UIImageView alloc] init];
+    _backgroundView.backgroundColor = [UIColor clearColor];
+    _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    _backgroundView.frame = self.frame;
+    [self insertSubview:_backgroundView atIndex:0];
+}
+
+- (void)awakeFromNib {
+    // Save & restore existing frame
+    CGRect frame = self.frame;
+    [self commonInit];
+    self.frame = frame; 
+    _selectedSegmentIndex = super.selectedSegmentIndex;
+    // Recreate existing segments
+    for (NSInteger i = 0; i < super.numberOfSegments; i++) {
+        [self insertSegmentWithTitle:[super titleForSegmentAtIndex:i] atIndex:i animated:NO];
+    }
+    [super removeAllSegments];
+
+}
+
 - (id)init {
     self = [self initWithFrame:CGRectZero];
     if (self) {
-		_selectedSegmentIndex = -1;
-		_lastSelectedSegmentIndex = -1;
-		_items = [NSMutableArray new];
-		
-		[self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-		
-		self.frame = CGRectMake(10.0, 0.0, kURBDefaultSize.width, kURBDefaultSize.height);
-		self.backgroundColor = [UIColor clearColor];
-		self.imageColor = [UIColor grayColor];
-		self.selectedImageColor = [UIColor whiteColor];
-		self.segmentEdgeInsets = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
-		
-		// base styles
-		self.baseColor = [UIColor colorWithRed:0.35 green:0.35 blue:0.35 alpha:1.0];
-		self.strokeColor = [UIColor darkGrayColor];
-		self.segmentBackgroundColor = nil;
-		self.strokeWidth = 2.0f;
-		self.cornerRadius = 4.0f;
-		
-		// layout
-		self.layoutOrientation = URBSegmentedControlOrientationHorizontal;
-		self.segmentViewLayout = URBSegmentViewLayoutDefault;
-		
-		// base image view
-        _backgroundView = [[UIImageView alloc] init];
-		_backgroundView.backgroundColor = [UIColor clearColor];
-		_backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-		_backgroundView.frame = self.frame;
-		[self insertSubview:_backgroundView atIndex:0];
+		[self commonInit];
     }
     return self;
 }
