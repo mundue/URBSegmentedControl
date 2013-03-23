@@ -31,6 +31,7 @@
 	URBSegmentedControl *control = [[URBSegmentedControl alloc] initWithItems:titles];
 	control.frame = CGRectMake(10.0, 10.0, 300.0, 40.0);
 	control.segmentBackgroundColor = [UIColor blueColor];
+	[control setSegmentBackgroundColor:[UIColor greenColor] atIndex:2];
 	[viewController.view addSubview:control];
 	
 	// UIKit method of handling value changes
@@ -69,6 +70,7 @@
 	URBSegmentedControl *verticalControl2 = [[URBSegmentedControl alloc] initWithTitles:titles icons:icons];
 	verticalControl2.frame = CGRectMake(CGRectGetMaxX(verticalControl.frame) + 20.0, CGRectGetMaxY(iconControl.frame) + 20.0, 180.0, 150.0);
 	verticalControl2.layoutOrientation = URBSegmentedControlOrientationVertical;
+	verticalControl2.imageEdgeInsets = UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0);
 	[viewController.view addSubview:verticalControl2];
 	
 	// set icons for each segment
@@ -83,7 +85,20 @@
 	URBSegmentedControl *verticalIconControl = [[URBSegmentedControl alloc] initWithIcons:icons];
 	verticalIconControl.frame = CGRectMake(CGRectGetMaxX(verticalControl.frame) + 20.0, CGRectGetMaxY(verticalControl2.frame) + 20.0, 50.0, 130.0);
 	verticalIconControl.layoutOrientation = URBSegmentedControlOrientationVertical;
+	verticalIconControl.contentEdgeInsets = UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0);
 	[viewController.view addSubview:verticalIconControl];
+	
+	//
+	// Vertical segmented control with icons in horizontal layout and no gradient
+	//
+	URBSegmentedControl *horizVerticalControl = [[URBSegmentedControl alloc] initWithTitles:titles icons:icons];
+	horizVerticalControl.frame = CGRectMake(10.0, CGRectGetMaxY(verticalControl.frame) + 20.0, 300.0, 80.0);
+	horizVerticalControl.segmentViewLayout = URBSegmentViewLayoutVertical;
+	horizVerticalControl.showsGradient = NO;
+	horizVerticalControl.contentEdgeInsets = UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0);
+	horizVerticalControl.imageEdgeInsets = UIEdgeInsetsMake(6.0, 8.0, 8.0, 8.0);
+	horizVerticalControl.titleEdgeInsets = UIEdgeInsetsZero;
+	[viewController.view addSubview:horizVerticalControl];
 	
 	
 	self.window.rootViewController = viewController;	

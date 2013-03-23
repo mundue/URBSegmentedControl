@@ -74,15 +74,17 @@ Your `URBSegmentedControl` can be customized using the following properties:
 
 ```objective-c
 // base styles
-@property (nonatomic, strong) UIColor *baseColor;		// default [UIColor colorWithRed:0.35 green:0.35 blue:0.35 alpha:1.0];
-@property (nonatomic, strong) UIColor *strokeColor;		// default [UIColor darkGrayColor]
-@property (nonatomic, assign) CGFloat strokeWidth;		// default 2.0
-@property (nonatomic) CGFloat cornerRadius;				// default 2.0
+@property (nonatomic, strong) UIColor *baseColor;				// default [UIColor colorWithWhite:0.3 alpha:1.0]
+@property (nonatomic, strong) UIColor *strokeColor;				// default [UIColor darkGrayColor]
+@property (nonatomic, assign) CGFloat strokeWidth;				// default 2.0
+@property (nonatomic) CGFloat cornerRadius;						// default 2.0
+@property (nonatomic, assign) UIEdgeInsets segmentEdgeInsets;	// default UIEdgeInsetsMake(4.0, 4.0, 4.0, 4.0)
 
 // segment styles
 @property (nonatomic, strong) UIColor *segmentBackgroundColor;		// default [UIColor redColor]
 @property (nonatomic, strong) UIColor *imageColor;					// default [UIColor grayColor]
 @property (nonatomic, strong) UIColor *selectedImageColor;			// default [UIColor whiteColor]
+@property (nonatomic, assign) BOOL showsGradient;					// determines if the base and segment background should have a gradient applied, default YES
 ```
 
 By default, your images will be tinted with the colors you define using the `imageColor` and `selectedImageColor` properties. If you would rather keep your images in their original format, just set these color properties to `nil`:
@@ -90,6 +92,14 @@ By default, your images will be tinted with the colors you define using the `ima
 ```objective-c
 control.imageColor = nil;
 control.selectedImageColor = nil;
+```
+
+In most cases, the default insets applied to the content, title and image for each segment will work. However, if your control is smaller or you wish to adjust the sizes of elements better, you can adjust the insets by setting the following properties on your instance:
+
+```objective-c
+@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 ```
 
 ## TODO
